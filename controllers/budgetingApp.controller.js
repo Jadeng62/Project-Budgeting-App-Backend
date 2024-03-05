@@ -27,6 +27,31 @@ expenses.post('/', (req, res) => {
       res.json({Transactions:budgetedExpenses})
  })
 
- 
+ expenses.delete("/:transactionId", (req, res) => {
+    const {transactionId} = req.params;
+    const index = budgetedExpenses.findIndex(expense => expense.id === Number(transactionId))
+
+    if (index > -1) {
+        budgetedExpenses.splice(index, 1) 
+        res.json({message: "Transaction deleted succesfully"})
+    } else {
+        res.status(404).json({error: "Transaction not found"})
+    }
+ })
+
+ expenses.put("/:transactionId" , (req, res) => {
+    const {transactionId} = req.params
+    const updatedTransaction = req.body
+
+    const index = budgetedExpenses.findIndex(expense => expense.id === Number(transactionId))
+
+    if (index === -1) {
+        return res.status(404).json({message : "Transaction not found"})
+    }
+
+    budgetedExpenses[index] = {...budgetedExpenses[index], ...updatedTransaction}
+
+    res.json(budgetedExpenses[index])
+ })
     
     module.exports = expenses;
