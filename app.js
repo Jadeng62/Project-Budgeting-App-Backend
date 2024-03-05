@@ -1,12 +1,15 @@
 const express = require("express")
 const cors = require("cors")
+const expenses = require("./controllers/budgetingApp.controller")
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-// app.use("/api/budgetingApp/", null)
+const budgetingController = require("./controllers/budgetingApp.controller.js")
+
+app.use("/api/budgetingApp/", budgetingController)
 
 app.get("/", (req, res) => {
     res.send("Budgeting App Start")
